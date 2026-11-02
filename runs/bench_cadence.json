@@ -11,15 +11,15 @@
  },
  "weights_mb": 1.63,
  "file_mb": 1.63,
- "cold_start_ms": 2.8,
+ "cold_start_ms": 2.6,
  "prefill_tokens": 27,
- "prefill_ms": 175.5,
- "decode_tokens": 48,
- "decode_ms": 256.8,
- "ms_per_token": 5.35,
- "tokens_per_second": 186.9,
- "rss_mb": 61.7,
- "heap_mb": 6.8,
+ "prefill_ms": 143.5,
+ "decode_tokens": 64,
+ "decode_ms": 344.4,
+ "ms_per_token": 5.38,
+ "tokens_per_second": 185.8,
+ "rss_mb": 75.9,
+ "heap_mb": 6.7,
  "state_bytes": 221184,
  "node": "v22.22.3",
  "platform": "linux/x64",
@@ -27,15 +27,15 @@
  "context_sweep": [
   {
    "position": 0,
-   "ms_per_token": 5.527
+   "ms_per_token": 4.677
   },
   {
    "position": 512,
-   "ms_per_token": 4.668
+   "ms_per_token": 5.292
   },
   {
    "position": 2048,
-   "ms_per_token": 4.844
+   "ms_per_token": 4.99
   }
  ]
 }

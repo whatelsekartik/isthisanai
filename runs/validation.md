@@ -23,6 +23,6 @@
 | PASS | same seed -> identical text | - |
 | PASS | different seed -> different text | - |
 | PASS | generation returns text | 'It is a truth to the same. I cannot' |
-| PASS | per-token cost flat from position 0 to 2048 | 5.50 -> 6.29 ms/token (x1.14) |
+| PASS | per-token cost flat from position 0 to 2048 | 4.69 -> 4.89 ms/token (x1.04) |
 
 20/20 checks passed.

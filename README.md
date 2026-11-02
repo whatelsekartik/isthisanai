@@ -21,10 +21,13 @@ and no GPU anywhere in the inference path.
   | session state | **216 KB, constant** | 1,152 KB, grows with context |
   | int8 vs fp32 logit cosine | 1.00000 | 1.00000 |
 
-  Cadence is *slower per token* at short context (it applies 6 block computations per token
-  to the transformer's 3, and touches a `d_h²` state per head). What it buys is a cost that
-  does not grow with context, a 5x smaller session, no fixed window, and better loss at an
-  equal token budget — with a *larger* model on the other side of the comparison.
+  Three honest caveats, all measured: Cadence is **slower per token** at short context (6
+  block computations per token vs the transformer's 3, plus a `d_h²` state per head), it is
+  **worse per unit of training time** (the transformer reaches ppl 56.3 in the same 18
+  minutes because it consumes tokens ~5x faster on CPU), and its equal-token win is against
+  a model that is only 13 % larger. What Cadence actually delivers is the inference
+  contract: flat cost with context, a 5x smaller session, no fixed window, and an int8
+  artefact that reproduces the fp32 model exactly enough to be the same function.
 
 ## Quick start
 

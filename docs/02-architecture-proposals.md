@@ -128,8 +128,10 @@ judgements anchored in the literature cited in `01`.
 | **weighted score** | | **7.85** | **6.35** | **6.55** |
 
 Cadence wins, driven by recall capacity and integer exactness. The Transformer reference
-of the same size (6 layers, `d=192`, `d_h=48`, same SwiGLU MLP, `V=2304`) is retained as
-the **baseline** for Phase 4 rather than as a candidate: it is the thing to beat.
+of the nearest size (3 layers, `d=192`, `d_h=48`, same SwiGLU MLP, `V=2304` → 1.77 M
+parameters, 13 % *more* than Cadence) is retained as the **baseline** for Phase 4 rather than
+as a candidate: it is the thing to beat. Three layers is the closest parameter match; a
+6-layer Transformer is 3.1 M parameters and would not be a like-for-like comparison.
 
 ---
 

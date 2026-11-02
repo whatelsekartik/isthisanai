@@ -30,7 +30,7 @@ is its own output (regenerate with `python -m tools.validate`, full log in
 | PASS | same seed -> identical text | — |
 | PASS | different seed -> different text | — |
 | PASS | generation returns text | `It is a truth to the same. I cannot` |
-| PASS | per-token cost flat from position 0 to 2048 | 5.06 -> 5.32 ms/token (x1.05) |
+| PASS | per-token cost flat from position 0 to 2048 | 4.69 -> 4.89 ms/token (x1.04) |
 
 ## How each claim is actually established
 
@@ -91,9 +91,9 @@ the fp32 PyTorch forward pass on the same prompt:
 
 | quantity | Cadence | Transformer |
 |---|---:|---:|
-| logit cosine | 1.00000 | 1.00000 |
-| mean abs logit error | 0.0071 | 0.0084 |
-| max abs logit error | 0.0518 | 0.0577 |
+| logit cosine | 0.99999 | 1.00000 |
+| mean abs logit error | 0.0132 | 0.0084 |
+| max abs logit error | 0.0617 | 0.0577 |
 | top-1 token agreement | yes | yes |
 | top-5 overlap | 5/5 | 5/5 |
 
@@ -118,8 +118,8 @@ against the reference did.
 
 ### 7. "Cost is independent of context length"
 
-Measured by stepping tokens and timing 32-token windows at positions 0, 512 and 2048: 5.06 →
-5.32 ms/token (the drift is JIT warm-up, not growth). The transformer baseline, measured the
+Measured by stepping tokens and timing 32-token windows at positions 0, 512 and 2048: 4.69 →
+4.89 ms/token (±4 %, which is JIT warm-up and timer noise, not growth). The transformer baseline, measured the
 same way inside its 256-token window, goes 2.00 → 2.26 ms/token and cannot go past 256 at
 all because its position table is only trained there.
 

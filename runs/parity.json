@@ -1,24 +1,24 @@
 {
  "arch": "cadence",
- "prompt": "It is a truth",
+ "prompt": "It is a truth universally acknowledged",
  "ckpt_step": 900,
- "logit_mean_abs_diff": 0.0071,
- "logit_max_abs_diff": 0.0518,
- "logit_cosine": 1,
+ "logit_mean_abs_diff": 0.0132,
+ "logit_max_abs_diff": 0.0617,
+ "logit_cosine": 0.99999,
  "top1_match": true,
  "top5_overlap": "5/5",
  "js_top5": [
-  " of",
-  ",",
-  ".",
   " to",
-  " in"
+  ".",
+  ",",
+  "\n",
+  " by"
  ],
  "py_top5": [
-  " of",
-  ",",
-  ".",
   " to",
-  " in"
+  ".",
+  ",",
+  "\n",
+  " by"
  ]
 }
