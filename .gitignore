@@ -1,0 +1,11 @@
+# regenerable data (tools/fetch_corpus.py + tools/prepare_data.py)
+data/raw/
+data/processed/
+# checkpoints are large and derivable from the training command; logs/metrics are kept
+runs/**/*.pt
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+.vercel
+.DS_Store

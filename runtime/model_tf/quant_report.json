@@ -1,0 +1,17 @@
+{
+ "arch": "transformer",
+ "params": 1819968,
+ "file_bytes": 1860944,
+ "val_loss_fp32": 4.73363,
+ "val_loss_int8": 4.73357,
+ "val_ppl_fp32": 113.707,
+ "val_ppl_int8": 113.701,
+ "delta_ppl": -0.006,
+ "ckpt_step": 900,
+ "quant": {
+  "scheme": "int8 row-wise, fp32 per-row scale",
+  "n_int8": 17,
+  "n_f32": 7,
+  "mean_rel_err": 0.005927
+ }
+}

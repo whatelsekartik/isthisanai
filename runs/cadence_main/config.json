@@ -1,0 +1,73 @@
+{
+ "arch": "cadence",
+ "cfg": {
+  "vocab_size": 2304,
+  "d_model": 192,
+  "n_heads": 4,
+  "n_blocks": 2,
+  "n_loops": 3,
+  "mlp_hidden": 512,
+  "conv_kernel": 4,
+  "seq_len": 256,
+  "n_dyadic": 16,
+  "bands": [
+   [
+    0,
+    6
+   ],
+   [
+    0,
+    6
+   ],
+   [
+    0,
+    14
+   ],
+   [
+    0,
+    14
+   ]
+  ],
+  "novelty": "gate",
+  "novelty_decay": 0.875,
+  "chunk": 32,
+  "mode": "chunk",
+  "gauge_init": 0.0,
+  "tie_embeddings": true,
+  "dropout": 0.0
+ },
+ "params": 1561170,
+ "params_non_embedding": 1118802,
+ "args": {
+  "arch": "cadence",
+  "data": "data/processed",
+  "out": "runs/cadence_main",
+  "steps": 900,
+  "batch": 12,
+  "seq": 256,
+  "lr": 0.0012,
+  "min_lr_ratio": 0.1,
+  "warmup": 60,
+  "weight_decay": 0.1,
+  "grad_clip": 1.0,
+  "eval_every": 100,
+  "save_every": 100,
+  "eval_batches": 8,
+  "seed": 1337,
+  "threads": 2,
+  "d_model": 192,
+  "n_heads": 4,
+  "n_blocks": 2,
+  "n_loops": 3,
+  "n_layers": 6,
+  "mlp_hidden": 512,
+  "chunk": 32,
+  "conv_kernel": 4,
+  "bands": "0:6,0:6,0:14,0:14",
+  "novelty": "gate",
+  "qat_frac": 0.3,
+  "resume": null,
+  "max_minutes": 0.0,
+  "sample_tokens": 200
+ }
+}

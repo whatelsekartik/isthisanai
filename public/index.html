@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cadence — a language model that runs int8 on one serverless vCPU</title>
+<style>
+  :root { --bg:#0c0e11; --panel:#14181d; --line:#232a31; --fg:#e7edf3; --dim:#8b96a3;
+          --acc:#5eead4; --warn:#f5b955; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace; }
+  header { padding:32px 24px 18px; border-bottom:1px solid var(--line); }
+  h1 { font-size:19px; margin:0 0 8px; font-weight:600; letter-spacing:.2px; }
+  h1 em { color:var(--acc); font-style:normal; }
+  .sub { color:var(--dim); max-width:860px; }
+  main { padding:22px 24px 64px; display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  h2 { font-size:11.5px; text-transform:uppercase; letter-spacing:.14em; color:var(--dim); margin:0 0 12px; }
+  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+  td { padding:3px 0; border-bottom:1px dotted #1d232a; }
+  td.k { color:var(--dim); }
+  td.v { text-align:right; }
+  textarea, input, button { font:inherit; background:#0e1216; color:var(--fg); border:1px solid #2b333c;
+    border-radius:6px; padding:8px; }
+  textarea { width:100%; height:60px; resize:vertical; }
+  input { width:100%; }
+  button { background:var(--acc); color:#06231f; font-weight:700; border:0; cursor:pointer; padding:9px 16px; border-radius:6px; }
+  button:disabled { opacity:.45; cursor:progress; }
+  .row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:10px 0; }
+  label { color:var(--dim); font-size:12px; }
+  pre { white-space:pre-wrap; word-break:break-word; background:#0e1216; border:1px solid #2b333c;
+        border-radius:6px; padding:11px; min-height:70px; margin:10px 0 0; font-size:13px; }
+  .note { color:var(--dim); font-size:12px; margin-top:12px; }
+  code { color:#c8d3dd; }
+  .pill { display:inline-block; padding:1px 8px; border-radius:99px; background:#17292a; color:var(--acc); font-size:11px; }
+  .warn { color:var(--warn); }
+</style>
+</head>
+<body>
+<header>
+  <h1><em>Cadence</em> — a 1.5M-parameter language model that runs int8 on one serverless vCPU</h1>
+  <div class="sub">
+    Trained from random initialisation on public-domain books. No pretrained weights, no external
+    model API, no GPU — the forward pass below runs in this function's Node.js process.
+    Weights are int8; the recurrent state is an <code>Int32Array</code> and the per-token decay is an
+    <em>exact bit shift</em> (power-of-two retention), so the recurrence needs no floating point at all.
+  </div>
+</header>
+<main>
+  <section>
+    <h2>Measured on this deployment</h2>
+    <table id="bench"><tr><td class="k">measuring…</td><td class="v"></td></tr></table>
+    <div class="note">Numbers come from <code>GET /api/bench</code>, computed in the same process that served this page. Reload to re-measure.</div>
+  </section>
+
+  <section>
+    <h2>Sample</h2>
+    <textarea id="prompt">It is a truth universally acknowledged, that a single man in possession</textarea>
+    <div class="row">
+      <label>tokens<input id="ntok" type="number" value="64" min="1" max="200" /></label>
+      <label>temp<input id="temp" type="number" value="0.8" step="0.05" min="0.05" max="2" /></label>
+      <label>top-k<input id="topk" type="number" value="40" min="0" max="200" /></label>
+    </div>
+    <button id="go">Generate</button>
+    <pre id="out">—</pre>
+    <div class="note" id="meta"></div>
+  </section>
+
+  <section>
+    <h2>What this is</h2>
+    <table>
+      <tr><td class="k">architecture</td><td class="v">Cadence (dyadic delta memory)</td></tr>
+      <tr><td class="k">parameters</td><td class="v">1,561,170</td></tr>
+      <tr><td class="k">weights on disk</td><td class="v" id="wb">—</td></tr>
+      <tr><td class="k">context</td><td class="v">unbounded, fixed state</td></tr>
+      <tr><td class="k">decay</td><td class="v">2<sup>-a</sup>, a ∈ {0..15}</td></tr>
+      <tr><td class="k">GPU / external API</td><td class="v">none</td></tr>
+      <tr><td class="k">quality</td><td class="v"><span class="pill">small-scale research model</span></td></tr>
+    </table>
+    <div class="note">
+      This is a research artefact: 1.5M parameters and ~4.6M training tokens on two CPU cores.
+      It emits period-flavoured English, not usable prose. The contribution being demonstrated is
+      the <em>cost of inference</em> — exact integer recurrence, 3 MB of int8 weights, 216 KB of
+      state — not the eloquence. See <code>docs/</code> for the literature review, the design, the
+      transformer baseline at the same token budget, and the measured limitations.
+    </div>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = (v, d = 1) => (v === undefined || v === null ? "—" : Number(v).toFixed(d));
+
+async function bench() {
+  try {
+    const r = await fetch("/api/bench").then((x) => x.json());
+    if (r.error) throw new Error(r.error);
+    const rows = [
+      ["cold start (read + parse weights)", fmt(r.cold_start_ms, 2) + " ms"],
+      ["int8 weights", fmt(r.weights_mb, 2) + " MB"],
+      ["prefill", `${fmt(r.prefill_ms)} ms / ${r.prefill_tokens} tok`],
+      ["decode", `${fmt(r.ms_per_token, 2)} ms/token`],
+      ["throughput", fmt(r.tokens_per_second) + " tok/s"],
+      ["state per session", fmt(r.state_bytes / 1024) + " KB"],
+      ["RSS", fmt(r.rss_mb) + " MB"],
+      ["node / vCPUs", `${r.node} / ${r.cpus}`],
+    ];
+    $("bench").innerHTML = rows.map(([k, v]) => `<tr><td class="k">${k}</td><td class="v">${v}</td></tr>`).join("");
+    $("wb").textContent = fmt(r.weights_mb, 2) + " MB";
+    if (r.ckpt_step) $("wb").title = "checkpoint step " + r.ckpt_step;
+  } catch (e) {
+    $("bench").innerHTML = `<tr><td class="k warn">bench failed</td><td class="v">${e.message || e}</td></tr>`;
+  }
+}
+
+$("go").onclick = async () => {
+  const b = $("go");
+  b.disabled = true;
+  $("out").textContent = "…";
+  try {
+    const r = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        prompt: $("prompt").value,
+        max_tokens: Number($("ntok").value),
+        temperature: Number($("temp").value),
+        top_k: Number($("topk").value),
+      }),
+    }).then((x) => x.json());
+    if (r.error) throw new Error(r.error);
+    $("out").textContent = r.prompt + r.completion;
+    $("meta").textContent =
+      `${r.tokens_generated} tokens · ${r.ms_per_token} ms/token · ${r.tokens_per_second} tok/s · ` +
+      `weights ${r.weights_mb} MB · state ${(r.state_bytes / 1024).toFixed(0)} KB · RSS ${r.rss_mb} MB`;
+  } catch (e) {
+    $("out").textContent = "error: " + (e.message || e);
+  } finally {
+    b.disabled = false;
+  }
+};
+
+bench();
+</script>
+</body>
+</html>

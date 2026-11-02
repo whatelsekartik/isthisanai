@@ -1,0 +1,17 @@
+{
+ "arch": "cadence",
+ "params": 1561170,
+ "file_bytes": 1633632,
+ "val_loss_fp32": 4.30261,
+ "val_loss_int8": 4.30314,
+ "val_ppl_fp32": 73.892,
+ "val_ppl_int8": 73.932,
+ "delta_ppl": 0.039,
+ "ckpt_step": 900,
+ "quant": {
+  "scheme": "int8 row-wise, fp32 per-row scale",
+  "n_int8": 11,
+  "n_f32": 23,
+  "mean_rel_err": 0.006028
+ }
+}

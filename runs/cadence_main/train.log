@@ -1,0 +1,59 @@
+cadence: 1,561,170 params (1,118,802 non-embedding)
+{"step": 1, "loss": 7.7825, "lr": 2e-05, "grad_norm": 1.9995, "tok_s": 2171, "elapsed": 1.4}
+{"step": 20, "loss": 7.2998, "lr": 0.0004, "grad_norm": 1.3832, "tok_s": 2052, "elapsed": 28.0}
+{"step": 40, "loss": 6.2749, "lr": 0.0008, "grad_norm": 0.888, "tok_s": 2359, "elapsed": 55.9}
+{"step": 60, "loss": 5.7758, "lr": 0.0012, "grad_norm": 0.8019, "tok_s": 2249, "elapsed": 86.6}
+{"step": 80, "loss": 5.4543, "lr": 0.001199, "grad_norm": 0.7762, "tok_s": 2284, "elapsed": 113.9}
+{"step": 100, "loss": 5.2173, "lr": 0.001194, "grad_norm": 0.7826, "tok_s": 2099, "elapsed": 140.6}
+EVAL {"step": 100, "val_loss": 5.30008, "val_ppl": 200.353, "elapsed": 143.8}
+{"step": 120, "loss": 5.0888, "lr": 0.001187, "grad_norm": 0.875, "tok_s": 2293, "elapsed": 170.0}
+{"step": 140, "loss": 5.0076, "lr": 0.001177, "grad_norm": 0.8609, "tok_s": 2297, "elapsed": 196.1}
+{"step": 160, "loss": 4.8271, "lr": 0.001163, "grad_norm": 0.7913, "tok_s": 2336, "elapsed": 223.6}
+{"step": 180, "loss": 4.9161, "lr": 0.001147, "grad_norm": 0.7963, "tok_s": 2341, "elapsed": 249.3}
+{"step": 200, "loss": 4.8229, "lr": 0.001129, "grad_norm": 0.8518, "tok_s": 2690, "elapsed": 275.4}
+EVAL {"step": 200, "val_loss": 4.88127, "val_ppl": 131.798, "elapsed": 278.3}
+{"step": 220, "loss": 4.7182, "lr": 0.001107, "grad_norm": 0.8498, "tok_s": 2389, "elapsed": 304.3}
+{"step": 240, "loss": 4.622, "lr": 0.001083, "grad_norm": 0.7957, "tok_s": 2405, "elapsed": 329.2}
+{"step": 260, "loss": 4.5501, "lr": 0.001057, "grad_norm": 0.9163, "tok_s": 2268, "elapsed": 355.0}
+{"step": 280, "loss": 4.5197, "lr": 0.001029, "grad_norm": 0.8223, "tok_s": 2529, "elapsed": 380.1}
+{"step": 300, "loss": 4.3614, "lr": 0.000998, "grad_norm": 0.9117, "tok_s": 2430, "elapsed": 405.9}
+EVAL {"step": 300, "val_loss": 4.66158, "val_ppl": 105.803, "elapsed": 408.5}
+{"step": 320, "loss": 4.55, "lr": 0.000966, "grad_norm": 0.9348, "tok_s": 2523, "elapsed": 433.9}
+{"step": 340, "loss": 4.475, "lr": 0.000932, "grad_norm": 1.0363, "tok_s": 2422, "elapsed": 459.1}
+{"step": 360, "loss": 4.3713, "lr": 0.000896, "grad_norm": 0.9375, "tok_s": 2113, "elapsed": 485.2}
+{"step": 380, "loss": 4.5069, "lr": 0.000859, "grad_norm": 0.8921, "tok_s": 2458, "elapsed": 512.2}
+{"step": 400, "loss": 4.369, "lr": 0.000821, "grad_norm": 1.0251, "tok_s": 2407, "elapsed": 537.8}
+EVAL {"step": 400, "val_loss": 4.54646, "val_ppl": 94.298, "elapsed": 540.7}
+{"step": 420, "loss": 4.2428, "lr": 0.000782, "grad_norm": 0.9376, "tok_s": 2510, "elapsed": 566.2}
+{"step": 440, "loss": 4.2668, "lr": 0.000742, "grad_norm": 0.9105, "tok_s": 2488, "elapsed": 591.6}
+{"step": 460, "loss": 4.2438, "lr": 0.000702, "grad_norm": 1.3268, "tok_s": 2411, "elapsed": 618.1}
+{"step": 480, "loss": 4.2548, "lr": 0.000662, "grad_norm": 1.2055, "tok_s": 2604, "elapsed": 643.8}
+{"step": 500, "loss": 4.3265, "lr": 0.000622, "grad_norm": 1.0803, "tok_s": 2221, "elapsed": 669.5}
+EVAL {"step": 500, "val_loss": 4.4434, "val_ppl": 85.064, "elapsed": 672.8}
+{"step": 520, "loss": 4.1679, "lr": 0.000582, "grad_norm": 0.9589, "tok_s": 2325, "elapsed": 698.3}
+{"step": 540, "loss": 4.135, "lr": 0.000542, "grad_norm": 0.9128, "tok_s": 2244, "elapsed": 724.9}
+{"step": 560, "loss": 4.1729, "lr": 0.000503, "grad_norm": 0.9227, "tok_s": 2386, "elapsed": 750.9}
+{"step": 580, "loss": 4.0872, "lr": 0.000465, "grad_norm": 0.9797, "tok_s": 2413, "elapsed": 776.4}
+{"step": 600, "loss": 3.9921, "lr": 0.000428, "grad_norm": 1.1483, "tok_s": 2238, "elapsed": 801.9}
+EVAL {"step": 600, "val_loss": 4.35872, "val_ppl": 78.157, "elapsed": 805.1}
+{"step": 620, "loss": 4.1746, "lr": 0.000392, "grad_norm": 1.0252, "tok_s": 2542, "elapsed": 830.8}
+step 630: int8 fake-quantisation of weights ON
+{"step": 640, "loss": 4.1917, "lr": 0.000357, "grad_norm": 1.1007, "tok_s": 2426, "elapsed": 857.0}
+{"step": 660, "loss": 4.0216, "lr": 0.000325, "grad_norm": 0.925, "tok_s": 2341, "elapsed": 883.0}
+{"step": 680, "loss": 4.0799, "lr": 0.000294, "grad_norm": 0.9982, "tok_s": 2487, "elapsed": 909.7}
+{"step": 700, "loss": 3.9994, "lr": 0.000266, "grad_norm": 0.9326, "tok_s": 2393, "elapsed": 934.5}
+EVAL {"step": 700, "val_loss": 4.30702, "val_ppl": 74.219, "elapsed": 937.6}
+{"step": 720, "loss": 4.1587, "lr": 0.000239, "grad_norm": 1.0318, "tok_s": 2565, "elapsed": 962.7}
+{"step": 740, "loss": 4.1916, "lr": 0.000215, "grad_norm": 1.1906, "tok_s": 2479, "elapsed": 988.4}
+{"step": 760, "loss": 4.0458, "lr": 0.000193, "grad_norm": 1.2235, "tok_s": 2364, "elapsed": 1013.7}
+{"step": 780, "loss": 4.1005, "lr": 0.000174, "grad_norm": 1.0584, "tok_s": 2316, "elapsed": 1039.0}
+{"step": 800, "loss": 3.9783, "lr": 0.000158, "grad_norm": 0.9945, "tok_s": 2194, "elapsed": 1063.8}
+EVAL {"step": 800, "val_loss": 4.26235, "val_ppl": 70.976, "elapsed": 1067.0}
+{"step": 820, "loss": 4.0984, "lr": 0.000145, "grad_norm": 0.9689, "tok_s": 2483, "elapsed": 1092.7}
+{"step": 840, "loss": 4.0559, "lr": 0.000134, "grad_norm": 1.0596, "tok_s": 2396, "elapsed": 1118.7}
+{"step": 860, "loss": 4.178, "lr": 0.000126, "grad_norm": 1.0163, "tok_s": 2555, "elapsed": 1145.2}
+{"step": 880, "loss": 3.9907, "lr": 0.000122, "grad_norm": 1.2926, "tok_s": 2569, "elapsed": 1171.8}
+{"step": 900, "loss": 4.0489, "lr": 0.00012, "grad_norm": 1.0799, "tok_s": 2473, "elapsed": 1198.3}
+EVAL {"step": 900, "val_loss": 4.24196, "val_ppl": 69.544, "elapsed": 1201.0}
+DONE {"steps": 900, "tokens": 2764800, "best_val_loss": 4.241960247357686, "best_val_ppl": 69.54404183635629, "wall_seconds": 1201.1}
+SAMPLE: It is a truth universally acknowledged to his bulling-house and desteve her and the couple of his, dwitch-hearted times, and I did not talk of her; and she did not know the same inclusion. When the two villain it had not been a little, and the pull of audismatigations. She was, with a freedom tongue.  "Oh, I'll let them do. I will be a castle of fives."  'I am glad to be."  "I am, I've come to his

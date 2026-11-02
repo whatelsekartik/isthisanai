@@ -1,0 +1,15 @@
+{
+  "functions": {
+    "api/*.mjs": {
+      "memory": 1024,
+      "maxDuration": 60,
+      "includeFiles": "runtime/model/**"
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [{ "key": "cache-control", "value": "no-store" }]
+    }
+  ]
+}

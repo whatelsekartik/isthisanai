@@ -1,0 +1,24 @@
+{
+ "arch": "transformer",
+ "prompt": "It is a truth",
+ "ckpt_step": 900,
+ "logit_mean_abs_diff": 0.0084,
+ "logit_max_abs_diff": 0.0577,
+ "logit_cosine": 1,
+ "top1_match": true,
+ "top5_overlap": "5/5",
+ "js_top5": [
+  ".",
+  " of",
+  ",",
+  " to",
+  ".\""
+ ],
+ "py_top5": [
+  ".",
+  " of",
+  ",",
+  " to",
+  ".\""
+ ]
+}
