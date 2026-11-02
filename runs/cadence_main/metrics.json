@@ -1,0 +1,67 @@
+{
+ "arch": "cadence",
+ "params": 1561170,
+ "params_non_embedding": 1118802,
+ "steps": 900,
+ "tokens": 2764800,
+ "best_val_loss": 4.241960247357686,
+ "best_val_ppl": 69.54404183635629,
+ "history": [
+  {
+   "step": 100,
+   "val_loss": 5.30008,
+   "val_ppl": 200.353,
+   "elapsed": 143.8
+  },
+  {
+   "step": 200,
+   "val_loss": 4.88127,
+   "val_ppl": 131.798,
+   "elapsed": 278.3
+  },
+  {
+   "step": 300,
+   "val_loss": 4.66158,
+   "val_ppl": 105.803,
+   "elapsed": 408.5
+  },
+  {
+   "step": 400,
+   "val_loss": 4.54646,
+   "val_ppl": 94.298,
+   "elapsed": 540.7
+  },
+  {
+   "step": 500,
+   "val_loss": 4.4434,
+   "val_ppl": 85.064,
+   "elapsed": 672.8
+  },
+  {
+   "step": 600,
+   "val_loss": 4.35872,
+   "val_ppl": 78.157,
+   "elapsed": 805.1
+  },
+  {
+   "step": 700,
+   "val_loss": 4.30702,
+   "val_ppl": 74.219,
+   "elapsed": 937.6
+  },
+  {
+   "step": 800,
+   "val_loss": 4.26235,
+   "val_ppl": 70.976,
+   "elapsed": 1067.0
+  },
+  {
+   "step": 900,
+   "val_loss": 4.24196,
+   "val_ppl": 69.544,
+   "elapsed": 1201.0
+  }
+ ],
+ "wall_seconds": 1201.1,
+ "qat": true
+}

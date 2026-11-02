@@ -1,0 +1,59 @@
+transformer: 1,770,816 params (1,328,448 non-embedding)
+{"step": 1, "loss": 7.7788, "lr": 2e-05, "grad_norm": 1.8517, "tok_s": 10485, "elapsed": 0.3}
+{"step": 20, "loss": 7.131, "lr": 0.0004, "grad_norm": 1.0778, "tok_s": 14960, "elapsed": 4.4}
+{"step": 40, "loss": 6.4376, "lr": 0.0008, "grad_norm": 0.366, "tok_s": 13751, "elapsed": 8.6}
+{"step": 60, "loss": 6.3764, "lr": 0.0012, "grad_norm": 0.5107, "tok_s": 15912, "elapsed": 12.8}
+{"step": 80, "loss": 6.0423, "lr": 0.001199, "grad_norm": 0.5723, "tok_s": 12780, "elapsed": 17.0}
+{"step": 100, "loss": 5.732, "lr": 0.001194, "grad_norm": 0.5862, "tok_s": 14300, "elapsed": 21.3}
+EVAL {"step": 100, "val_loss": 5.73504, "val_ppl": 309.526, "elapsed": 21.8}
+{"step": 120, "loss": 5.5222, "lr": 0.001187, "grad_norm": 0.6023, "tok_s": 14070, "elapsed": 26.1}
+{"step": 140, "loss": 5.4607, "lr": 0.001177, "grad_norm": 0.7594, "tok_s": 17053, "elapsed": 29.9}
+{"step": 160, "loss": 5.308, "lr": 0.001163, "grad_norm": 0.6303, "tok_s": 14608, "elapsed": 34.3}
+{"step": 180, "loss": 5.4122, "lr": 0.001147, "grad_norm": 0.588, "tok_s": 16385, "elapsed": 38.5}
+{"step": 200, "loss": 5.3023, "lr": 0.001129, "grad_norm": 0.5945, "tok_s": 16321, "elapsed": 42.6}
+EVAL {"step": 200, "val_loss": 5.31184, "val_ppl": 202.722, "elapsed": 43.0}
+{"step": 220, "loss": 5.2612, "lr": 0.001107, "grad_norm": 0.6394, "tok_s": 15636, "elapsed": 50.9}
+{"step": 240, "loss": 5.1359, "lr": 0.001083, "grad_norm": 0.6069, "tok_s": 16095, "elapsed": 55.4}
+{"step": 260, "loss": 5.1419, "lr": 0.001057, "grad_norm": 0.6174, "tok_s": 15051, "elapsed": 60.9}
+{"step": 280, "loss": 5.1242, "lr": 0.001029, "grad_norm": 0.6215, "tok_s": 14563, "elapsed": 66.5}
+{"step": 300, "loss": 4.8747, "lr": 0.000998, "grad_norm": 0.6328, "tok_s": 13823, "elapsed": 72.4}
+EVAL {"step": 300, "val_loss": 5.1489, "val_ppl": 172.242, "elapsed": 73.0}
+{"step": 320, "loss": 5.0958, "lr": 0.000966, "grad_norm": 0.617, "tok_s": 13473, "elapsed": 77.7}
+{"step": 340, "loss": 4.9949, "lr": 0.000932, "grad_norm": 0.6389, "tok_s": 16447, "elapsed": 81.9}
+{"step": 360, "loss": 4.9329, "lr": 0.000896, "grad_norm": 0.6489, "tok_s": 13767, "elapsed": 86.2}
+{"step": 380, "loss": 5.0546, "lr": 0.000859, "grad_norm": 0.6224, "tok_s": 14877, "elapsed": 90.5}
+{"step": 400, "loss": 4.8885, "lr": 0.000821, "grad_norm": 0.6385, "tok_s": 15680, "elapsed": 94.9}
+EVAL {"step": 400, "val_loss": 5.02578, "val_ppl": 152.288, "elapsed": 95.3}
+{"step": 420, "loss": 4.867, "lr": 0.000782, "grad_norm": 0.6658, "tok_s": 14884, "elapsed": 99.6}
+{"step": 440, "loss": 4.8506, "lr": 0.000742, "grad_norm": 0.6726, "tok_s": 13079, "elapsed": 104.5}
+{"step": 460, "loss": 4.8336, "lr": 0.000702, "grad_norm": 0.6838, "tok_s": 2489, "elapsed": 110.0}
+{"step": 480, "loss": 4.8479, "lr": 0.000662, "grad_norm": 0.6946, "tok_s": 15758, "elapsed": 114.5}
+{"step": 500, "loss": 4.8243, "lr": 0.000622, "grad_norm": 0.7228, "tok_s": 15214, "elapsed": 118.7}
+EVAL {"step": 500, "val_loss": 4.91001, "val_ppl": 135.64, "elapsed": 119.1}
+{"step": 520, "loss": 4.69, "lr": 0.000582, "grad_norm": 0.7203, "tok_s": 15409, "elapsed": 123.4}
+{"step": 540, "loss": 4.691, "lr": 0.000542, "grad_norm": 0.7743, "tok_s": 14387, "elapsed": 129.0}
+{"step": 560, "loss": 4.7296, "lr": 0.000503, "grad_norm": 0.6802, "tok_s": 14473, "elapsed": 133.4}
+{"step": 580, "loss": 4.649, "lr": 0.000465, "grad_norm": 0.7289, "tok_s": 14410, "elapsed": 137.8}
+{"step": 600, "loss": 4.5822, "lr": 0.000428, "grad_norm": 0.8505, "tok_s": 14356, "elapsed": 143.0}
+EVAL {"step": 600, "val_loss": 4.81402, "val_ppl": 123.226, "elapsed": 143.4}
+{"step": 620, "loss": 4.7012, "lr": 0.000392, "grad_norm": 0.7185, "tok_s": 12975, "elapsed": 148.0}
+step 630: int8 fake-quantisation of weights ON
+{"step": 640, "loss": 4.7111, "lr": 0.000357, "grad_norm": 0.7453, "tok_s": 13517, "elapsed": 157.2}
+{"step": 660, "loss": 4.5578, "lr": 0.000325, "grad_norm": 0.8325, "tok_s": 14266, "elapsed": 161.6}
+{"step": 680, "loss": 4.5704, "lr": 0.000294, "grad_norm": 0.8265, "tok_s": 16358, "elapsed": 166.2}
+{"step": 700, "loss": 4.5281, "lr": 0.000266, "grad_norm": 0.7879, "tok_s": 13220, "elapsed": 170.6}
+EVAL {"step": 700, "val_loss": 4.7453, "val_ppl": 115.043, "elapsed": 171.1}
+{"step": 720, "loss": 4.6772, "lr": 0.000239, "grad_norm": 0.8417, "tok_s": 13024, "elapsed": 175.7}
+{"step": 740, "loss": 4.6791, "lr": 0.000215, "grad_norm": 0.8428, "tok_s": 15777, "elapsed": 180.0}
+{"step": 760, "loss": 4.5521, "lr": 0.000193, "grad_norm": 0.7788, "tok_s": 14047, "elapsed": 185.7}
+{"step": 780, "loss": 4.6112, "lr": 0.000174, "grad_norm": 0.812, "tok_s": 13169, "elapsed": 190.3}
+{"step": 800, "loss": 4.4739, "lr": 0.000158, "grad_norm": 0.986, "tok_s": 12278, "elapsed": 195.9}
+EVAL {"step": 800, "val_loss": 4.69874, "val_ppl": 109.808, "elapsed": 197.3}
+{"step": 820, "loss": 4.5546, "lr": 0.000145, "grad_norm": 0.8238, "tok_s": 13792, "elapsed": 205.6}
+{"step": 840, "loss": 4.4805, "lr": 0.000134, "grad_norm": 0.7981, "tok_s": 12847, "elapsed": 210.3}
+{"step": 860, "loss": 4.6283, "lr": 0.000126, "grad_norm": 0.8538, "tok_s": 15821, "elapsed": 215.2}
+{"step": 880, "loss": 4.5208, "lr": 0.000122, "grad_norm": 0.9766, "tok_s": 16432, "elapsed": 219.6}
+{"step": 900, "loss": 4.4877, "lr": 0.00012, "grad_norm": 0.8713, "tok_s": 14585, "elapsed": 225.1}
+EVAL {"step": 900, "val_loss": 4.67665, "val_ppl": 107.41, "elapsed": 225.5}
+DONE {"steps": 900, "tokens": 2764800, "best_val_loss": 4.676652113596599, "best_val_ppl": 107.40987389929934, "wall_seconds": 225.6}
+SAMPLE: It is a truth universally acknowledged was the diefoller as his own way of the ca. Blour was the mount. It was at a word of the lang of the old did, with all the light of the first, who was in the hunning of the old man, but they had never heard it up his tagin the length. He had left, and he were a pief and store, but to the ring. They made the ball, and on the pull ased on their feet and the luc

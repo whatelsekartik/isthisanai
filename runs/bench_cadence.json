@@ -1,0 +1,41 @@
+{
+ "arch": "cadence",
+ "params": {
+  "arch": "cadence",
+  "vocab": 2304,
+  "d_model": 192,
+  "heads": 4,
+  "weight_bytes": 1629512,
+  "int8_tensors": 11,
+  "file_bytes": 1633672
+ },
+ "weights_mb": 1.63,
+ "file_mb": 1.63,
+ "cold_start_ms": 3.2,
+ "prefill_tokens": 27,
+ "prefill_ms": 172.4,
+ "decode_tokens": 64,
+ "decode_ms": 321.5,
+ "ms_per_token": 5.02,
+ "tokens_per_second": 199,
+ "rss_mb": 63.4,
+ "heap_mb": 5.5,
+ "state_bytes": 221184,
+ "node": "v22.22.3",
+ "platform": "linux/x64",
+ "cpus": 2,
+ "context_sweep": [
+  {
+   "position": 0,
+   "ms_per_token": 4.95
+  },
+  {
+   "position": 512,
+   "ms_per_token": 4.777
+  },
+  {
+   "position": 2048,
+   "ms_per_token": 5.466
+  }
+ ]
+}
