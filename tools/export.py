@@ -96,6 +96,9 @@ def main() -> None:
                           offset=off, nbytes=len(t["data"]), scales=soff))
 
     header = dict(arch=arch, cfg=cfg, vocab=int(cfg["vocab_size"]), tensors=index,
+                  params=int(sum(p.numel() for p in model.parameters())),
+                  step=ck.get("step"), val_ppl=round(float(np.exp(ck["val_loss"])), 3)
+                  if ck.get("val_loss") else None,
                   quant=dict(scheme="int8 row-wise, fp32 per-row scale",
                              n_int8=sum(1 for t in tensors if t["dtype"] == "i8"),
                              n_f32=sum(1 for t in tensors if t["dtype"] == "f32"),

@@ -118,8 +118,10 @@ against the reference did.
 
 ### 7. "Cost is independent of context length"
 
-Measured by stepping tokens and timing 32-token windows at positions 0, 512 and 2048: 4.69 →
-4.89 ms/token (±4 %, which is JIT warm-up and timer noise, not growth). The transformer baseline, measured the
+Measured by stepping tokens and timing 32-token windows at positions 0, 512 and 2048:
+4.78–5.47 ms/token, i.e. ±14 % scatter with no trend in the position. (The numbers move by
+that much between runs on a shared 2-vCPU box; the check asserts the ratio stays under 1.5,
+which is the property that matters.) The transformer baseline, measured the
 same way inside its 256-token window, goes 2.00 → 2.26 ms/token and cannot go past 256 at
 all because its position table is only trained there.
 

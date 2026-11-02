@@ -1,6 +1,6 @@
 # Cadence
 
-A language model built for **one CPU core and 3 MB of RAM**, trained from scratch on public
+A language model built for **one CPU core and a 1.6 MB weight file**, trained from scratch on public
 domain books, and deployed as an int8 integer-arithmetic runtime with no Python, no PyTorch
 and no GPU anywhere in the inference path.
 

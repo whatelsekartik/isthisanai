@@ -44,7 +44,7 @@ So the honest claim is not "faster". It is:
 
 | property | Cadence | Transformer |
 |---|---|---|
-| cost per token as context grows | flat (5.06 → 5.32 ms, position 0 → 2048) | grows (2.00 → 2.26 ms inside a 256-token window) |
+| cost per token as context grows | flat within noise (4.78–5.47 ms, positions 0 → 2048) | grows +33 % (1.90 → 2.52 ms) inside a 256-token window |
 | session state | 216 KB, constant | 1.15 MB and context-dependent |
 | context limit | none (fixed state) | 256 tokens (trained window) |
 | val ppl at equal tokens | 69.5 | 107.4 (with 13 % more parameters) |

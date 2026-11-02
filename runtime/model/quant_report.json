@@ -1,7 +1,7 @@
 {
  "arch": "cadence",
  "params": 1561170,
- "file_bytes": 1633632,
+ "file_bytes": 1633672,
  "val_loss_fp32": 4.30261,
  "val_loss_int8": 4.30314,
  "val_ppl_fp32": 73.892,

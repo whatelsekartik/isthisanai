@@ -103,6 +103,7 @@ async function bench() {
       ["state per session", fmt(r.state_bytes / 1024) + " KB"],
       ["RSS", fmt(r.rss_mb) + " MB"],
       ["node / vCPUs", `${r.node} / ${r.cpus}`],
+      ["checkpoint", r.ckpt_step ? `step ${r.ckpt_step} · val ppl ${r.ckpt_val_ppl}` : "—"],
     ];
     $("bench").innerHTML = rows.map(([k, v]) => `<tr><td class="k">${k}</td><td class="v">${v}</td></tr>`).join("");
     $("wb").textContent = fmt(r.weights_mb, 2) + " MB";

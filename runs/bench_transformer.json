@@ -11,14 +11,14 @@
  },
  "weights_mb": 1.86,
  "file_mb": 1.86,
- "cold_start_ms": 2.8,
+ "cold_start_ms": 2.6,
  "prefill_tokens": 27,
- "prefill_ms": 59.8,
+ "prefill_ms": 53.4,
  "decode_tokens": 64,
- "decode_ms": 135.4,
- "ms_per_token": 2.12,
- "tokens_per_second": 472.5,
- "rss_mb": 68.9,
+ "decode_ms": 131.1,
+ "ms_per_token": 2.05,
+ "tokens_per_second": 488,
+ "rss_mb": 67.3,
  "heap_mb": 6.9,
  "state_bytes": 1179648,
  "node": "v22.22.3",
@@ -27,15 +27,15 @@
  "context_sweep": [
   {
    "position": 0,
-   "ms_per_token": 1.907
+   "ms_per_token": 1.902
   },
   {
    "position": 64,
-   "ms_per_token": 2.311
+   "ms_per_token": 2.208
   },
   {
    "position": 200,
-   "ms_per_token": 2.54
+   "ms_per_token": 2.524
   }
  ]
 }

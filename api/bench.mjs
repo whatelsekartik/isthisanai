@@ -54,7 +54,9 @@ export default function handler(req, res) {
       cpus: os.cpus().length,
       platform: `${process.platform}/${process.arch}`,
       quant: model.header.quant,
-      ckpt_step: model.header.cfg && model.header.step,
+      params: model.header.params,
+      ckpt_step: model.header.step,
+      ckpt_val_ppl: model.header.val_ppl,
     };
     json(res, 200, cached);
   } catch (err) {

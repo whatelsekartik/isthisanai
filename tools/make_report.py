@@ -151,17 +151,27 @@ def main() -> None:
           "grows with context; Cadence's state is constant.\n")
     if bench and bench.get("context_sweep"):
         A("### Per-token cost vs position in the sequence\n")
-        A("| position | Cadence ms/token | Transformer ms/token |")
-        A("|---:|---:|---:|")
-        sw_t = {d["position"]: d["ms_per_token"] for d in (bench_tf or {}).get("context_sweep", [])}
-        for d in bench["context_sweep"]:
-            tv = sw_t.get(d["position"])
-            A(f"| {d['position']:,} | {d['ms_per_token']:.2f} | "
-              f"{f'{tv:.2f}' if tv is not None else 'n/a (256-token window)'} |")
+        A("| position | Cadence ms/token |")
+        A("|---:|---:|")
+        csw = bench["context_sweep"]
+        for d in csw:
+            A(f"| {d['position']:,} | {d['ms_per_token']:.2f} |")
         A("")
-        A("Cadence's cost is flat because its state is fixed (and the slight downward drift "
-          "is JIT warm-up). The transformer's grows with the KV cache and it cannot exceed "
-          "its 256-token trained window at all.\n")
+        if bench_tf and bench_tf.get("context_sweep"):
+            A("| position | Transformer ms/token |")
+            A("|---:|---:|")
+            for d in bench_tf["context_sweep"]:
+                A(f"| {d['position']:,} | {d['ms_per_token']:.2f} |")
+            A("")
+            A("The two sweeps use different position grids because the transformer cannot go "
+              "past its 256-token trained window; that asymmetry *is* the finding.\n")
+        spread = (max(d["ms_per_token"] for d in csw) / min(d["ms_per_token"] for d in csw) - 1)
+        A(f"Cadence's per-token cost varies by {spread:.0%} over 2048 positions — timer noise "
+          "and JIT effects, with no trend in the position. The transformer's rises from "
+          f"{bench_tf['context_sweep'][0]['ms_per_token']:.2f} to "
+          f"{bench_tf['context_sweep'][-1]['ms_per_token']:.2f} ms/token (+"
+          f"{(bench_tf['context_sweep'][-1]['ms_per_token']/bench_tf['context_sweep'][0]['ms_per_token']-1):.0%}) "
+          "across just 200 positions of KV cache.\n" if bench_tf else "")
 
     A("## 4. Numerical parity: int8 JS runtime vs fp32 PyTorch\n")
     if parity:
