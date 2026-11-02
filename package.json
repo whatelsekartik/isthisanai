@@ -1,22 +1,24 @@
 {
- "name": "cadence",
- "version": "1.0.0",
- "private": true,
- "type": "module",
- "description": "Cadence: a dyadic multi-timescale delta-memory LM with an integer CPU runtime",
- "engines": {
-  "node": ">=20"
- },
- "scripts": {
-  "generate": "node runtime/src/generate.mjs",
-  "bench": "node runtime/src/bench.mjs",
-  "parity": "node runtime/src/parity.mjs",
-  "dev": "node dev.mjs",
-  "test": "python -m pytest -q tests",
-  "test:runtime": "node runtime/src/test_runtime.mjs",
-  "train": "python -m src.train",
-  "export": "python -m tools.export",
-  "report": "python -m tools.make_report",
-  "validate": "python -m tools.validate"
- }
+  "name": "cadence",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Cadence: a dyadic multi-timescale delta-memory LM with an integer CPU runtime",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "generate": "node runtime/src/generate.mjs",
+    "bench": "node runtime/src/bench.mjs",
+    "parity": "node runtime/src/parity.mjs",
+    "dev": "node dev.mjs",
+    "test": "python -m pytest -q tests",
+    "test:runtime": "node runtime/src/test_runtime.mjs",
+    "train": "python -m src.train",
+    "export": "python -m tools.export",
+    "report": "python -m tools.make_report",
+    "validate": "python -m tools.validate",
+    "test:js": "node --test tests/*.mjs",
+    "test:ui": "node --test tests/test_app.mjs tests/test_bench_ui.mjs tests/test_chat.mjs"
+  }
 }

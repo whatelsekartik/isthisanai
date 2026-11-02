@@ -9,7 +9,18 @@
   "headers": [
     {
       "source": "/api/(.*)",
-      "headers": [{ "key": "cache-control", "value": "no-store" }]
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/bench",
+      "destination": "/bench.html"
     }
   ]
 }

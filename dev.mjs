@@ -39,7 +39,10 @@ const server = http.createServer(async (req, res) => {
     }
     return;
   }
-  const rel = url.pathname === "/" ? "index.html" : url.pathname.slice(1);
+  // pretty routes: "/" -> index.html, "/bench" -> bench.html
+  const rel = url.pathname === "/" ? "index.html"
+    : url.pathname === "/bench" ? "bench.html"
+    : url.pathname.slice(1);
   const file = path.join(root, "public", rel);
   if (!file.startsWith(path.join(root, "public")) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
     res.statusCode = 404;

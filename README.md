@@ -51,8 +51,18 @@ python -m pytest -q tests
 # 5. run it
 node runtime/src/generate.mjs "It is a truth" 80
 node runtime/src/bench.mjs
-node dev.mjs          # http://localhost:3000 (same handlers Vercel runs)
+node dev.mjs          # http://localhost:3000 — chat at /, measurements at /bench
 ```
+
+## The page
+
+`/` is the chat: one column, a composer, and a settings panel whose five sliders are generated
+from the engine's own parameter table (`GET /api/params`) — nothing is offered that the sampler
+does not implement, and nothing is fabricated when a request fails. Replies stream over SSE and
+can be stopped mid-token. `/bench` re-runs the measurements in the serving process and labels
+each table **live** or **stored** from the server's own `cached` flag; it never shows a number it
+did not receive. `docs/07-interface.md` has the details, `tests/test_app.mjs` and
+`tests/test_bench_ui.mjs` drive the real client code against a stub DOM (`npm run test:ui`).
 
 ## What is measured, and what is claimed
 
@@ -78,8 +88,9 @@ docs/          01 literature review · 02 architecture proposals · 03 benchmark
 src/cadence/   tokenizer.py (BPE) · model.py (Cadence + transformer baseline) · train.py
 tools/         fetch_corpus · prepare_data · export · dump_reference
 runtime/       src/model.mjs (int8 engine) · src/bench.mjs · src/generate.mjs · src/parity.mjs
-api/           Vercel function handlers: /api/generate, /api/bench, /api/health
-public/        the single page that calls them
-tests/         equivalence, causality, streaming, retention-integrality
+api/           Vercel function handlers: /api/generate, /api/bench, /api/health, /api/params
+lib/           shared: checkpoint loading (lib/api.mjs), parameter ranges (lib/params.mjs)
+public/        the chat page, the bench page, and their DOM-free modules
+tests/         equivalence, causality, streaming, retention; sampling, API, and UI tests
 runs/          checkpoints, logs, metrics, quantisation reports
 ```
