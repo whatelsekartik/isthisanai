@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Cadence — measurements</title>
+<meta name="color-scheme" content="light dark" />
+<link rel="stylesheet" href="/styles.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%2317181a'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <header class="bar">
+    <a class="wordmark" href="/">Cadence</a>
+    <span class="status" id="status" data-state="loading"><i aria-hidden="true"></i><span id="status-text">measuring</span></span>
+    <div class="bar-right"><a class="quiet" href="/">chat</a></div>
+  </header>
+
+  <main class="page">
+    <h1>Measurements</h1>
+    <p class="lede">Taken on the machine serving this page, in the function process itself. Nothing here is stored ahead of time.</p>
+
+    <p><span class="badge" id="badge">—</span> <span class="status" style="margin-left:8px"><span id="measured-at"></span></span></p>
+
+    <div class="actions">
+      <button class="button" id="run" type="button">Run again</button>
+      <span class="err" id="error" hidden></span>
+    </div>
+
+    <table class="measure">
+      <tbody id="rows"></tbody>
+    </table>
+  </main>
+
+  <script type="module" src="/bench.js"></script>
+</body>
+</html>

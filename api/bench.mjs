@@ -6,8 +6,15 @@ export const config = { maxDuration: 60 };
 
 let cached = null;
 
+/**
+ * Measurements are stored per function instance. `?fresh=1` forces a new measurement; the
+ * response says which it is (`cached`) and when it was taken (`measured_at`), so the UI can
+ * label stored numbers as stored instead of passing them off as live.
+ */
 export default function handler(req, res) {
-  if (cached) return json(res, 200, { ...cached, cached: true });
+  const url = req.url ? new URL(req.url, "http://x") : null;
+  const fresh = url ? url.searchParams.get("fresh") === "1" : false;
+  if (cached && !fresh) return json(res, 200, { ...cached, cached: true });
   try {
     const t0 = performance.now();
     const { model, loadMs } = getModel();
@@ -34,7 +41,7 @@ export default function handler(req, res) {
     const decMs = performance.now() - td;
     const mem = process.memoryUsage();
 
-    cached = {
+    const measured = {
       arch: model.arch,
       weights_mb: +(model.info().weight_bytes / 1e6).toFixed(2),
       cold_start_ms: bootMs,
@@ -57,8 +64,11 @@ export default function handler(req, res) {
       params: model.header.params,
       ckpt_step: model.header.step,
       ckpt_val_ppl: model.header.val_ppl,
+      measured_at: new Date().toISOString(),
+      cached: false,
     };
-    json(res, 200, cached);
+    cached = measured;
+    json(res, 200, measured);
   } catch (err) {
     json(res, 500, { error: String(err && err.message || err) });
   }

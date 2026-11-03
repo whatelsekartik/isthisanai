@@ -11,6 +11,7 @@
  * tests/test_equivalence.py proves equals the chunk-parallel training path.
  */
 import fs from "node:fs";
+import { sampleToken, applyRepetitionPenalty } from "./sample.mjs";
 
 const MAGIC = "CDN1";
 
@@ -122,6 +123,12 @@ export class Tokenizer {
     return ids;
   }
 
+  /** raw bytes of a single token id, for streaming decoders that must respect UTF-8 boundaries */
+  bytesOf(id) {
+    const table = this.table || this._expand();
+    return table[id] || null;
+  }
+
   decode(ids) {
     const table = this.table || this._expand();
     const out = [];
@@ -187,32 +194,6 @@ function matvec(w, scales, bias, xq, eX, out, nOut, nIn, add) {
     }
   }
   return out;
-}
-
-function softmaxSample(logits, n, temperature, topK, rnd) {
-  const inv = 1 / Math.max(temperature, 1e-4);
-  let best = -Infinity, bi = 0;
-  if (!topK) {
-    let max = -Infinity;
-    for (let i = 0; i < n; i++) if (logits[i] > max) max = logits[i];
-    let sum = 0;
-    const p = new Float64Array(n);
-    for (let i = 0; i < n; i++) { p[i] = Math.exp((logits[i] - max) * inv); sum += p[i]; }
-    let u = rnd() * sum;
-    for (let i = 0; i < n; i++) { u -= p[i]; if (u <= 0) return i; }
-    return n - 1;
-  }
-  const idx = Array.from({ length: n }, (_, i) => i);
-  idx.sort((a, b) => logits[b] - logits[a]);
-  const keep = idx.slice(0, Math.min(topK, n));
-  let max = -Infinity;
-  for (const i of keep) if (logits[i] > max) max = logits[i];
-  let sum = 0;
-  const p = new Float64Array(keep.length);
-  for (let k = 0; k < keep.length; k++) { p[k] = Math.exp((logits[keep[k]] - max) * inv); sum += p[k]; }
-  let u = rnd() * sum;
-  for (let k = 0; k < keep.length; k++) { u -= p[k]; if (u <= 0) return keep[k]; }
-  return keep[keep.length - 1];
 }
 
 /* ----------------------------------------------------------------- Cadence model */
@@ -451,15 +432,28 @@ export class CadenceSession {
     return this.logits;
   }
 
-  /** generate `n` tokens after `promptIds`; returns {ids, logits} */
-  generate(promptIds, n, { temperature = 0.8, topK = 40, rnd = Math.random } = {}) {
+  /**
+   * Generate `n` tokens after `promptIds`.
+   *
+   * `onToken(id)` is called for every accepted token so a caller can stream; returning
+   * `false` from it stops generation (used by the "stop" button).
+   */
+  generate(promptIds, n, {
+    temperature = 0.8, topK = 40, topP = 1, repetitionPenalty = 1,
+    rnd = Math.random, onToken = null,
+  } = {}) {
     const out = [];
+    const recent = promptIds.slice(-64);          // repetition window = last 64 context tokens
     let logits = null;
     for (const id of promptIds) logits = this.step(id);
+    if (!logits) logits = this.step(0);
     for (let i = 0; i < n; i++) {
-      if (!logits) logits = this.step(promptIds[promptIds.length - 1] ?? 0);
-      const id = softmaxSample(logits, this.m.vocab, temperature, topK, rnd);
+      applyRepetitionPenalty(logits, recent, repetitionPenalty);
+      const id = sampleToken(logits, this.m.vocab, { temperature, topK, topP, rnd });
       out.push(id);
+      recent.push(id);
+      if (recent.length > 64) recent.shift();
+      if (onToken && onToken(id) === false) break;
       logits = this.step(id);
     }
     return out;
@@ -497,91 +491,23 @@ export class TransformerSession {
     this.scaleBuf = new Float32Array(d).fill(1);
   }
 
-  generate(promptIds, n, { temperature = 0.8, topK = 40, rnd = Math.random } = {}) {
+  generate(promptIds, n, {
+    temperature = 0.8, topK = 40, topP = 1, repetitionPenalty = 1,
+    rnd = Math.random, onToken = null,
+  } = {}) {
     let logits = null;
     for (const id of promptIds) logits = this.step(id);
     const out = [];
+    const recent = promptIds.slice(-64);
     for (let i = 0; i < n; i++) {
-      const id = softmaxSample(logits, this.m.vocab, temperature, topK, rnd);
+      applyRepetitionPenalty(logits, recent, repetitionPenalty);
+      const id = sampleToken(logits, this.m.vocab, { temperature, topK, topP, rnd });
       out.push(id);
+      recent.push(id);
+      if (recent.length > 64) recent.shift();
+      if (onToken && onToken(id) === false) break;
       logits = this.step(id);
     }
     return out;
-  }
-
-  step(tokId) {
-    const m = this.m, c = this.c, d = this.d, H = this.H, dh = this.dh;
-    const emb = m.get("embed.weight"), posw = m.get("pos.weight");
-    const es = emb.scales[tokId], row = tokId * d;
-    // the position table is a matrix, so the exporter quantises it like any other:
-    // its per-row scale must be applied here (reading raw int8 was a 30x error)
-    const ps = posw.scales ? posw.scales[this.pos] : 1;
-    for (let i = 0; i < d; i++) {
-      this.x[i] = emb.data[row + i] * es + posw.data[this.pos * d + i] * ps;
-    }
-
-    for (let l = 0; l < this.depth; l++) {
-      const pre = `blocks.${l}.`;
-      const n1 = m.get(`${pre}norm1.weight`).data;
-      rmsnormMul(this.x, n1, this.scaleBuf, d, this.h);
-      let sX = quantise(this.h, d, this.xq);
-      const qkvW = m.get(`${pre}attn.qkv.weight`);
-      matvec(qkvW.data, qkvW.scales, null, this.xq, sX, this.qkv, 3 * d, d, false);
-      const kc = this.kc[l], vc = this.vc[l];
-      const T = this.pos + 1;
-      // append k and v at this position
-      for (let i = 0; i < d; i++) {
-        kc[this.pos * d + i] = this.qkv[d + i];
-        vc[this.pos * d + i] = this.qkv[2 * d + i];
-      }
-      for (let h = 0; h < H; h++) {
-        const off = h * dh;
-        let max = -Infinity;
-        const scores = new Float32Array(T);
-        for (let t = 0; t < T; t++) {
-          let acc = 0;
-          for (let i = 0; i < dh; i++) acc += this.qkv[off + i] * kc[t * d + off + i];
-          acc /= Math.sqrt(dh);
-          scores[t] = acc;
-          if (acc > max) max = acc;
-        }
-        let sum = 0;
-        for (let t = 0; t < T; t++) { scores[t] = Math.exp(scores[t] - max); sum += scores[t]; }
-        for (let i = 0; i < dh; i++) {
-          let acc = 0;
-          for (let t = 0; t < T; t++) acc += scores[t] * vc[t * d + off + i];
-          this.y[off + i] = acc / sum;
-        }
-      }
-      const pr = m.get(`${pre}attn.proj.weight`);
-      sX = quantise(this.y, d, this.xq);
-      matvec(pr.data, pr.scales, null, this.xq, sX, this.tmp, d, d, false);
-      for (let i = 0; i < d; i++) this.x[i] += this.tmp[i];
-
-      const n2 = m.get(`${pre}norm2.weight`).data;
-      rmsnormMul(this.x, n2, this.scaleBuf, d, this.h);
-      sX = quantise(this.h, d, this.xq);
-      const hh = c.mlp_hidden;
-      const gw = m.get(`${pre}gate.weight`), uw = m.get(`${pre}up.weight`);
-      matvec(gw.data, gw.scales, null, this.xq, sX, this.g1, hh, d, false);
-      matvec(uw.data, uw.scales, null, this.xq, sX, this.g2, hh, d, false);
-      for (let i = 0; i < hh; i++) this.g1[i] = silu(this.g1[i]) * this.g2[i];
-      const sG = quantise(this.g1, hh, this.xq);
-      const dw = m.get(`${pre}down.weight`);
-      matvec(dw.data, dw.scales, null, this.xq, sG, this.tmp, d, hh, false);
-      for (let i = 0; i < d; i++) this.x[i] += this.tmp[i];
-    }
-    const nf = m.get("norm_f.weight").data;
-    rmsnormMul(this.x, nf, this.scaleBuf, d, this.h);
-    const eL = quantise(this.h, d, this.xq);
-    const inv = Math.pow(2, -eL);
-    for (let v = 0; v < m.vocab; v++) {
-      const rowoff = v * d;
-      let acc = 0;
-      for (let i = 0; i < d; i++) acc += emb.data[rowoff + i] * this.xq[i];
-      this.logits[v] = acc * inv * emb.scales[v];
-    }
-    this.pos++;
-    return this.logits;
   }
 }
